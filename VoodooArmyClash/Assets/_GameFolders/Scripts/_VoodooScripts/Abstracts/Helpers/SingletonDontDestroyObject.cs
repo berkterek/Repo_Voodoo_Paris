@@ -8,6 +8,7 @@ namespace Voodoo.Abstracts.Helpers
         {
             if (Instance == null)
             {
+                instance.transform.parent = null;
                 Instance = instance;
                 DontDestroyOnLoad(this.gameObject);
             }
