@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
+using Voodoo.Abstracts.ScriptableObjects;
 using Voodoo.Controllers;
-using Voodoo.Enums;
 
 namespace Voodoo.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "New Shape Stats", menuName = "Voodoo/Stats/Shape Stats")]
-    public class ShapeStats : ScriptableObject
+    public class ShapeStats : ScriptableObject, IStats
     {
         [SerializeField] int _shapeHealth = 0;
         [SerializeField] int _shapeDamage = 0;

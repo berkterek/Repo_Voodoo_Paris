@@ -7,9 +7,9 @@ namespace Voodoo.Abstracts.Controllers
     {
         TeamType TeamType { get; }
         int CurrentHealth { get; }
-        float MoveSpeed { get; }
-        int Damage { get; }
-        float AttackRate { get; }
+        float CurrentMoveSpeed { get; }
+        int CurrentDamage { get; }
+        float CurrentAttackRate { get; }
 
         void BindTeam(TeamType teamType);
         void BindBasicStats(BasicStats basicStats);

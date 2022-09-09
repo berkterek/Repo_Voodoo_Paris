@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using Voodoo.Abstracts.ScriptableObjects;
 
 namespace Voodoo.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "New Basic Stats",menuName = "Voodoo/Stats/Basic Stats")]
-    public class BasicStats : ScriptableObject
+    public class BasicStats : ScriptableObject, IStats
     {
         [SerializeField] int _basicHealth = 100;
         [SerializeField] float _basicMoveSpeed = 10f;

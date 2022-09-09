@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using Voodoo.Abstracts.ScriptableObjects;
 
 namespace Voodoo.ScriptableObjects
 {
     [CreateAssetMenu(fileName = "New Color Stats", menuName = "Voodoo/Stats/Color Stats")]
-    public class ColorStats : ScriptableObject
+    public class ColorStats : ScriptableObject, IStats
     {
         [SerializeField] int _colorHealth = 100;
         [SerializeField] float _colorMoveSpeed = 10f;

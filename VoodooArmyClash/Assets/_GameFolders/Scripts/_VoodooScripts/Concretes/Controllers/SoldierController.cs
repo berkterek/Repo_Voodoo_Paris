@@ -19,7 +19,7 @@ namespace Voodoo.Controllers
         [SerializeField] float _currentMoveSpeed;
         [ReadOnly]
         [BoxGroup("Current Info")]
-        [SerializeField] int _currentDamage;
+        [SerializeField] int currentCurrentDamage;
         [ReadOnly]
         [BoxGroup("Current Info")]
         [SerializeField] float _currentAttackRate;
@@ -45,9 +45,9 @@ namespace Voodoo.Controllers
 
         public TeamType TeamType { get; }
         public int CurrentHealth => _currentHealth;
-        public float MoveSpeed => _currentMoveSpeed;
-        public int Damage => _currentDamage;
-        public float AttackRate => _currentAttackRate;
+        public float CurrentMoveSpeed => _currentMoveSpeed;
+        public int CurrentDamage => currentCurrentDamage;
+        public float CurrentAttackRate => _currentAttackRate;
         public Transform Transform => _transform;
 
         void Awake()
@@ -69,7 +69,7 @@ namespace Voodoo.Controllers
         {
             _basicStats = basicStats;
             _currentHealth = _basicStats.BasicHealth;
-            _currentDamage = _basicStats.BasicDamage;
+            currentCurrentDamage = _basicStats.BasicDamage;
             _currentAttackRate = _basicStats.BasicAttackRate;
             _currentMoveSpeed = _basicStats.BasicMoveSpeed;
         }
@@ -78,7 +78,7 @@ namespace Voodoo.Controllers
         {
             _shapeStats = shapeStats;
             _soldierBodyController = Instantiate(_shapeStats.ShapePrefab,this._transform);
-            _currentDamage += _shapeStats.ShapeDamage;
+            currentCurrentDamage += _shapeStats.ShapeDamage;
             _currentHealth += _shapeStats.ShapeHealth;
         }
 
@@ -87,7 +87,7 @@ namespace Voodoo.Controllers
             _colorStats = colorStats;
             _soldierBodyController.MeshRenderer.material = _colorStats.ColorMaterial;
             
-            _currentDamage += _colorStats.ColorDamage;
+            currentCurrentDamage += _colorStats.ColorDamage;
             _currentHealth += _colorStats.ColorHealth;
             _currentAttackRate += _colorStats.ColorAttackRate;
             _currentMoveSpeed += _colorStats.ColorMoveSpeed;
