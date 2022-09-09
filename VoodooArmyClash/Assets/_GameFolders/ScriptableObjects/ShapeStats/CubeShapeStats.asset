@@ -15,5 +15,5 @@ MonoBehaviour:
   _shapeHealth: 100
   _shapeDamage: 10
   _shapeType: 0
-  _shapePrefab: {fileID: 3469138065154935019, guid: 5ef7fe8734d36f44da68d80e8b4c5c81,
+  _shapePrefab: {fileID: 7054029018497671910, guid: 2e03e7e0e0144804b86879c412e11dc0,
     type: 3}
