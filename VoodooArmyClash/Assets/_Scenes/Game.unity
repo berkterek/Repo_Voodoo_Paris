@@ -167,6 +167,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1766803005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1766803006}
+  m_Layer: 0
+  m_Name: Soldier
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1766803006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766803005}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &2128204845 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6721533050450871677, guid: 0a5a2b9704532b540a1efd1010e08eb0,
@@ -476,12 +506,12 @@ PrefabInstance:
     - target: {fileID: 4250084095863796920, guid: 3a66cf71d6457524297815d57956d179,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1e-45
+      value: -1e-45
       objectReference: {fileID: 0}
     - target: {fileID: 4250084095863796920, guid: 3a66cf71d6457524297815d57956d179,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 1e-45
+      value: -1e-45
       objectReference: {fileID: 0}
     - target: {fileID: 4250084095863796920, guid: 3a66cf71d6457524297815d57956d179,
         type: 3}
@@ -556,12 +586,12 @@ PrefabInstance:
     - target: {fileID: 6458084228056946092, guid: 3a66cf71d6457524297815d57956d179,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1e-45
+      value: -1e-45
       objectReference: {fileID: 0}
     - target: {fileID: 6458084228056946092, guid: 3a66cf71d6457524297815d57956d179,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 1e-45
+      value: -1e-45
       objectReference: {fileID: 0}
     - target: {fileID: 6458084228056946092, guid: 3a66cf71d6457524297815d57956d179,
         type: 3}
