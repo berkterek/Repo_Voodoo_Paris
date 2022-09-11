@@ -51,7 +51,8 @@ namespace Voodoo.Controllers
         [BoxGroup("Stats")] [SerializeField] [ReadOnly]
         ColorStats _colorStats;
 
-        public TeamType TeamType { get; }
+        public TeamType TeamType => _teamType;
+        public ShapeType ShapeType => _soldierBodyController.ShapeType;
         public int CurrentHealth => _currentHealth;
         public float CurrentMoveSpeed => _currentMoveSpeed;
         public int CurrentDamage => _currentDamage;
@@ -86,7 +87,6 @@ namespace Voodoo.Controllers
             //TODO refactor Movement code 
             if (Vector3.Distance(_target.Transform.position, Transform.position) < 2f)
             {
-                Debug.Log("Attack");
                 AttackManager.AttackProcess(_target.HealthManager);
                 if (_navMeshAgent.isStopped) return;
 

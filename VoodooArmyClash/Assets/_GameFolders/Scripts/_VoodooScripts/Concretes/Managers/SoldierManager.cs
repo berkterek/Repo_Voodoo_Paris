@@ -114,16 +114,28 @@ namespace Voodoo.Managers
                     int oppositeCount = _allSoldiers[(TeamType)iOpposite].Count;
                     var oppositeSoldiers = _allSoldiers[(TeamType)iOpposite];
                     float nearestDistance = float.MaxValue;
+                    int minHealth = int.MaxValue;
                     int oppositeIndex = 0;
                     for (int k = 0; k < oppositeCount; k++)
                     {
                         if(oppositeSoldiers[k].HealthManager.IsDead) continue;
-                        
-                        float currentDistance = Vector3.Distance(soldier.Transform.position, oppositeSoldiers[k].Transform.position);
-                        if (currentDistance < nearestDistance)
+
+                        if(soldier.ShapeType == ShapeType.Cube)
                         {
-                            nearestDistance = currentDistance;
-                            oppositeIndex = k;
+                            float currentDistance = Vector3.Distance(soldier.Transform.position, oppositeSoldiers[k].Transform.position);
+                            if (currentDistance < nearestDistance)
+                            {
+                                nearestDistance = currentDistance;
+                                oppositeIndex = k;
+                            }    
+                        }
+                        else
+                        {
+                            if (minHealth > oppositeSoldiers[k].HealthManager.CurrentHealth)
+                            {
+                                minHealth = oppositeSoldiers[k].HealthManager.CurrentHealth;
+                                oppositeIndex = k;
+                            }
                         }
                     }
                     

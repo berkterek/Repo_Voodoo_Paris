@@ -7,6 +7,7 @@ namespace Voodoo.Combats
         readonly IHealthDal _healthDal;
 
         public bool IsDead => _healthDal.CurrentHealth <= 0;
+        public int CurrentHealth => _healthDal.CurrentHealth;
 
         public event System.Action OnDead;
 
