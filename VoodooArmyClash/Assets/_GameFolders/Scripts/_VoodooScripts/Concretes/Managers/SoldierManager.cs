@@ -43,6 +43,10 @@ namespace Voodoo.Managers
         [ReadOnly]
         Dictionary<TeamType, List<SoldierController>> _allSoldiers;
 
+        [BoxGroup("Test Purpose")]
+        [SerializeField]
+        bool _isGameStart = false;
+
         void Awake()
         {
             SetSingleton(this);
@@ -77,6 +81,41 @@ namespace Voodoo.Managers
                 
                 _allSoldiers[teamType].Add(soldier);
             }   
+        }
+
+        void Update()
+        {
+            if (!_isGameStart) return;
+            
+            for (int i = 1; i < _allSoldiers.Count +1; i++)
+            {
+                int iOpposite = i % 2 == 0 ? 1 : 2; 
+                int count = _allSoldiers[(TeamType)i].Count;
+                var soldiers = _allSoldiers[(TeamType)i];
+                for (int j = 0; j < count; j++)
+                {
+                    var soldier = soldiers[j];
+                    // if(soldier.Health.IsDead) continue;
+
+                    int oppositeCount = _allSoldiers[(TeamType)iOpposite].Count;
+                    var oppositeSoldiers = _allSoldiers[(TeamType)iOpposite];
+                    float nearestDistance = float.MaxValue;
+                    int oppositeIndex = 0;
+                    for (int k = 0; k < oppositeCount; k++)
+                    {
+                        // if(oppositeSoldiers[k].Health.IsDead) continue;
+                        
+                        float currentDistance = Vector3.Distance(soldier.Transform.position, oppositeSoldiers[k].Transform.position);
+                        if (currentDistance < nearestDistance)
+                        {
+                            nearestDistance = currentDistance;
+                            oppositeIndex = k;
+                        }
+                    }
+                    
+                    soldier.SetTarget(oppositeSoldiers[oppositeIndex]);
+                }
+            }
         }
 
         T GetRandomStats<T>(T[] stats) where T : class, IStats

@@ -1,5 +1,6 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.AI;
 using Voodoo.Abstracts.Controllers;
 using Voodoo.Enums;
 using Voodoo.Helpers;
@@ -34,6 +35,12 @@ namespace Voodoo.Controllers
         [ReadOnly]
         SoldierBodyController _soldierBodyController;
 
+        [BoxGroup("Game Object Infos")] [SerializeField] [ReadOnly]
+        NavMeshAgent _navMeshAgent;
+
+        [BoxGroup("Game Object Infos")] [SerializeField]
+        SoldierController _target;
+
         [BoxGroup("Stats")] [SerializeField] [ReadOnly]
         BasicStats _basicStats;
         [BoxGroup("Stats")] [SerializeField] [ReadOnly]
@@ -50,14 +57,34 @@ namespace Voodoo.Controllers
         public float CurrentAttackRate => _currentAttackRate;
         public Transform Transform => _transform;
 
+
         void Awake()
         {
             this.GetReference(ref _transform);
+            this.GetReference(ref _navMeshAgent);
         }
 
         void OnValidate()
         {
             this.GetReference(ref _transform);
+            this.GetReference(ref _navMeshAgent);
+        }
+
+        void Update()
+        {
+            if (_target == null) return;
+
+            //TODO refactor Movement code 
+            if (Vector3.Distance(_target.Transform.position, Transform.position) < 2f)
+            {
+                if (_navMeshAgent.isStopped) return;
+
+                _navMeshAgent.isStopped = true;
+            }
+            else
+            {
+                _navMeshAgent.SetDestination(_target.Transform.position);
+            }
         }
 
         public void BindTeam(TeamType teamType)
@@ -78,6 +105,7 @@ namespace Voodoo.Controllers
         {
             _shapeStats = shapeStats;
             _soldierBodyController = Instantiate(_shapeStats.ShapePrefab,this._transform);
+            _soldierBodyController.Transform.localPosition = DirectionCacheHelper.Up;
             currentCurrentDamage += _shapeStats.ShapeDamage;
             _currentHealth += _shapeStats.ShapeHealth;
         }
@@ -98,6 +126,11 @@ namespace Voodoo.Controllers
             _sizeStats = sizeStats;
             _soldierBodyController.Transform.localScale = _sizeStats.SizeScale;
             _currentHealth += _sizeStats.SizeHealth;
+        }
+
+        public void SetTarget(SoldierController target)
+        {
+            _target = target;
         }
     }
 }
