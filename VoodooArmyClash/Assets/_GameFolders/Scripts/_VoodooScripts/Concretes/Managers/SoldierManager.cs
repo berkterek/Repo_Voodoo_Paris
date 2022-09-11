@@ -170,6 +170,11 @@ namespace Voodoo.Managers
         {
             return stats[Random.Range(0, stats.Length)];
         }
+
+        public void StartBattle()
+        {
+            _isGameStart = true;
+        }
     }
 
     [System.Serializable]

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 using Voodoo.Abstracts.Helpers;
 
 namespace Voodoo.Managers
@@ -20,14 +22,29 @@ namespace Voodoo.Managers
             {
                 winMessage = "Team B Wins";
                 Debug.Log(winMessage);
+                OnGameOvered?.Invoke(winMessage);
             }
             else if (SoldierManager.Instance.IsTeamBLose)
             {
                 winMessage = "Team A Wins";
                 Debug.Log(winMessage);
+                OnGameOvered?.Invoke(winMessage);
             }
-            
-            OnGameOvered?.Invoke(winMessage);
+        }
+
+        public void LoadMenu()
+        {
+            StartCoroutine(LoadSceneAsync("Menu"));
+        }
+
+        public void LoadGame()
+        {
+            StartCoroutine(LoadSceneAsync("Game"));
+        }
+
+        IEnumerator LoadSceneAsync(string name)
+        {
+            yield return SceneManager.LoadSceneAsync(name);
         }
     }    
 }
