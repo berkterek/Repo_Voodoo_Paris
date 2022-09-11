@@ -1,12 +1,15 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
 using Voodoo.Abstracts.Combats;
 using Voodoo.Abstracts.Controllers;
+using Voodoo.Abstracts.Movements;
 using Voodoo.Combats;
 using Voodoo.Enums;
 using Voodoo.Helpers;
 using Voodoo.Managers;
+using Voodoo.Movements;
 using Voodoo.ScriptableObjects;
 
 namespace Voodoo.Controllers
@@ -59,6 +62,7 @@ namespace Voodoo.Controllers
         public float CurrentAttackRate => _currentAttackRate;
         public IHealthService HealthManager { get; private set; }
         public IAttackerService AttackManager { get; private set; }
+        public IMovementService MoveManager { get; private set; }
         public Transform Transform => _transform;
         public SoldierController Target => _target;
 
@@ -83,20 +87,15 @@ namespace Voodoo.Controllers
         void Update()
         {
             if (_target == null) return;
+            
+            MoveManager.Tick();
+        }
 
-            //TODO refactor Movement code 
-            if (Vector3.Distance(_target.Transform.position, Transform.position) < 2f)
-            {
-                AttackManager.AttackProcess(_target.HealthManager);
-                if (_navMeshAgent.isStopped) return;
-
-                _navMeshAgent.isStopped = true;
-            }
-            else
-            {
-                _navMeshAgent.isStopped = false;
-                _navMeshAgent.SetDestination(_target.Transform.position);
-            }
+        void FixedUpdate()
+        {
+            if (_target == null) return;
+            
+            MoveManager.FixedTick();
         }
 
         public void BindTeam(TeamType teamType)
@@ -134,6 +133,7 @@ namespace Voodoo.Controllers
 
             HealthManager = new HealthManager(new BasicHealthDal(_currentHealth));
             AttackManager = new AttackerManager(new BasicAttackerDal(_currentDamage, _currentAttackRate));
+            MoveManager = new MovementManager(this, new MoveNavmeshAgentDal(_navMeshAgent));
             _navMeshAgent.speed = _currentMoveSpeed;
 
             HealthManager.OnDead += HandleOnDead;
