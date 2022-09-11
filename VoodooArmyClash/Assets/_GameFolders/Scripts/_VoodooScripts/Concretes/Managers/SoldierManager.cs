@@ -94,7 +94,7 @@ namespace Voodoo.Managers
                 for (int j = 0; j < count; j++)
                 {
                     var soldier = soldiers[j];
-                    // if(soldier.Health.IsDead) continue;
+                    if(soldier.HealthManager.IsDead || soldier.Target != null) continue;
 
                     int oppositeCount = _allSoldiers[(TeamType)iOpposite].Count;
                     var oppositeSoldiers = _allSoldiers[(TeamType)iOpposite];
@@ -102,7 +102,7 @@ namespace Voodoo.Managers
                     int oppositeIndex = 0;
                     for (int k = 0; k < oppositeCount; k++)
                     {
-                        // if(oppositeSoldiers[k].Health.IsDead) continue;
+                        if(oppositeSoldiers[k].HealthManager.IsDead) continue;
                         
                         float currentDistance = Vector3.Distance(soldier.Transform.position, oppositeSoldiers[k].Transform.position);
                         if (currentDistance < nearestDistance)

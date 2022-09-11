@@ -60,6 +60,7 @@ namespace Voodoo.Controllers
         public IHealthService HealthManager { get; private set; }
         public IAttackerService AttackManager { get; private set; }
         public Transform Transform => _transform;
+        public SoldierController Target => _target;
 
 
         void Awake()
@@ -74,6 +75,11 @@ namespace Voodoo.Controllers
             this.GetReference(ref _navMeshAgent);
         }
 
+        void Start()
+        {
+            _navMeshAgent.isStopped = true;
+        }
+
         void Update()
         {
             if (_target == null) return;
@@ -81,13 +87,20 @@ namespace Voodoo.Controllers
             //TODO refactor Movement code 
             if (Vector3.Distance(_target.Transform.position, Transform.position) < 2f)
             {
+                Debug.Log("Attack");
+                AttackManager.AttackProcess(_target.HealthManager);
                 if (_navMeshAgent.isStopped) return;
 
                 _navMeshAgent.isStopped = true;
+                
             }
             else
             {
-                _navMeshAgent.SetDestination(_target.Transform.position);
+                if (_navMeshAgent.isStopped)
+                {
+                    _navMeshAgent.isStopped = false;
+                    _navMeshAgent.SetDestination(_target.Transform.position);    
+                }
             }
         }
 
@@ -127,6 +140,9 @@ namespace Voodoo.Controllers
             HealthManager = new HealthManager(new BasicHealthDal(_currentHealth));
             AttackManager = new AttackerManager(new BasicAttackerDal(_currentDamage, _currentAttackRate));
             _navMeshAgent.speed = _currentMoveSpeed;
+
+            HealthManager.OnDead += HandleOnDead;
+            AttackManager.OnTargetDestroyed += HandleOnTargetDestroyed;
         }
 
         public void BindSizeStats(SizeStats sizeStats)
@@ -139,6 +155,18 @@ namespace Voodoo.Controllers
         public void SetTarget(SoldierController target)
         {
             _target = target;
+        }
+        
+        void HandleOnDead()
+        {
+            _transform.gameObject.SetActive(false);
+            HealthManager.OnDead -= HandleOnDead;
+            AttackManager.OnTargetDestroyed -= HandleOnTargetDestroyed;
+        }
+        
+        void HandleOnTargetDestroyed()
+        {
+            _target = null;
         }
     }
 }

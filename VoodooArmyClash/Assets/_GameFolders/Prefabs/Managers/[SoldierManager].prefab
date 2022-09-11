@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &622297458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 622297459}
+  m_Layer: 0
+  m_Name: TeamAParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &622297459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 622297458}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 226689918812808911}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2078903176
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2078903177}
+  m_Layer: 0
+  m_Name: TeamBParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2078903177
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2078903176}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 226689918812808911}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7767397874536752547
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,6 +69,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 226689918812808911}
+  - component: {fileID: 241731244}
   m_Layer: 0
   m_Name: '[SoldierManager]'
   m_TagString: Untagged
@@ -26,7 +87,63 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 622297459}
+  - {fileID: 2078903177}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &241731244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7767397874536752547}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8e729e5483b8ab488ddeacc62e6e242, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _basicStatsArray:
+  - {fileID: 11400000, guid: a69df565d33208b43a06ec2a75934f5a, type: 2}
+  _shapeStatsArray:
+  - {fileID: 11400000, guid: 64ffbaabfd2712f4194e79cc86699cc0, type: 2}
+  - {fileID: 11400000, guid: c0da132ff141ebb479eb91a44fe08d26, type: 2}
+  _sizeStatsArray:
+  - {fileID: 11400000, guid: 3df3320d0ee6b554db6e7ac875dfe1bc, type: 2}
+  - {fileID: 11400000, guid: d7d8408c47bbb404a96466fbf44311d8, type: 2}
+  _colorStatsArray:
+  - {fileID: 11400000, guid: 93dc08971297ce146a2f226cae7c6f11, type: 2}
+  - {fileID: 11400000, guid: 8e43afd406f9f3540abed542625c08d8, type: 2}
+  - {fileID: 11400000, guid: 788514be719102749ae1699a91e92ff0, type: 2}
+  _soldierPrefab: {fileID: 7995940495229357312, guid: 2edbb17997cdf0843b4859d5dde9a548,
+    type: 3}
+  _soldierParentA: {fileID: 622297458}
+  _soldierParentB: {fileID: 2078903176}
+  _soldierPositions:
+  - _transforms:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    _teamType: 1
+  - _transforms:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    _teamType: 2
+  _isGameStart: 0

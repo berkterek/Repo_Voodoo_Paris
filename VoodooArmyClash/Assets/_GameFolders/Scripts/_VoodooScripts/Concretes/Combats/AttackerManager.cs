@@ -10,7 +10,7 @@ namespace Voodoo.Combats
         float _currentAttackTime = 0f;
 
         public int Damage => _attackerDal.BasicDamage;
-        public event System.Action TargetDestroyed;
+        public event System.Action OnTargetDestroyed;
 
         public AttackerManager(IAttackerDal attackerDal)
         {
@@ -27,7 +27,7 @@ namespace Voodoo.Combats
 
                 if (healthService.IsDead)
                 {
-                    TargetDestroyed?.Invoke();
+                    OnTargetDestroyed?.Invoke();
                     return;
                 }
                 healthService.DamageProcess(this);
