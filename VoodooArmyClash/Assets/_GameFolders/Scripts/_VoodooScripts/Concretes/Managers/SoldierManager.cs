@@ -46,6 +46,9 @@ namespace Voodoo.Managers
         [SerializeField]
         bool _isGameStart = false;
 
+        public bool IsTeamALose => _allSoldiers[TeamType.TeamA].TrueForAll(x => x.HealthManager.IsDead);
+        public bool IsTeamBLose => _allSoldiers[TeamType.TeamB].TrueForAll(x => x.HealthManager.IsDead);
+
         void Awake()
         {
             SetSingleton(this);

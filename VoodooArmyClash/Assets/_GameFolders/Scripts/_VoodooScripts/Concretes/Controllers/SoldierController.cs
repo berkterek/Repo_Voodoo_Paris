@@ -6,6 +6,7 @@ using Voodoo.Abstracts.Controllers;
 using Voodoo.Combats;
 using Voodoo.Enums;
 using Voodoo.Helpers;
+using Voodoo.Managers;
 using Voodoo.ScriptableObjects;
 
 namespace Voodoo.Controllers
@@ -156,6 +157,7 @@ namespace Voodoo.Controllers
             _transform.gameObject.SetActive(false);
             HealthManager.OnDead -= HandleOnDead;
             AttackManager.OnTargetDestroyed -= HandleOnTargetDestroyed;
+            GameManager.Instance.CheckHowIsWin();
         }
 
         void HandleOnTargetDestroyed()
