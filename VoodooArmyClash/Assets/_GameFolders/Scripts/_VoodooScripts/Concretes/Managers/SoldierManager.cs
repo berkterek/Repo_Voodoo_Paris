@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Voodoo.Abstracts.Helpers;
@@ -25,23 +25,46 @@ namespace Voodoo.Managers
         [BoxGroup("Soldiers")]
         [Required]
         [SerializeField] SoldierController _soldierPrefab;
+        
+        [BoxGroup("Soldiers")]
+        [Required]
+        [SerializeField]
+        GameObject _soldierParentA;
+        
+        [BoxGroup("Soldiers")]
+        [Required]
+        [SerializeField]
+        GameObject _soldierParentB;
+        
+        [BoxGroup("Positions")]
+        [SerializeField] SoldierPositionInspector[] _soldierPositions;
+
+        [ShowInInspector]
+        [ReadOnly]
+        Dictionary<TeamType, List<SoldierController>> _allSoldiers;
 
         void Awake()
         {
             SetSingleton(this);
+            _allSoldiers = new Dictionary<TeamType, List<SoldierController>>();
+            _allSoldiers[TeamType.TeamA] = new List<SoldierController>();
+            _allSoldiers[TeamType.TeamB] = new List<SoldierController>();
         }
 
         IEnumerator Start()
         {
-            yield return CreateSoldierAsync();
+            yield return CreateSoldierAsync(TeamType.TeamA,_soldierParentA);
+            yield return CreateSoldierAsync(TeamType.TeamB,_soldierParentB);
         }
-
-        IEnumerator CreateSoldierAsync()
+        
+        IEnumerator CreateSoldierAsync(TeamType teamType, GameObject soldierParent)
         {
+            Transform[] transforms = _soldierPositions.FirstOrDefault(x => x.TeamType == teamType).Transforms;
             for (int i = 0; i < 10; i++)
             {
-                var soldier = Instantiate(_soldierPrefab);
-                soldier.BindTeam(TeamType.TeamA);
+                var soldier = Instantiate(_soldierPrefab,transforms[i].position,transforms[i].localRotation);
+                soldier.Transform.SetParent(soldierParent.transform);
+                soldier.BindTeam(teamType);
 
                 while (soldier.CurrentHealth <= 0 || soldier.CurrentDamage <= 0 || soldier.CurrentAttackRate <= 0f || soldier.CurrentMoveSpeed <= 0f)
                 {
@@ -51,12 +74,24 @@ namespace Voodoo.Managers
                     soldier.BindColorStats(GetRandomStats<ColorStats>(_colorStatsArray));
                     yield return null;    
                 }
-            }
+                
+                _allSoldiers[teamType].Add(soldier);
+            }   
         }
 
         T GetRandomStats<T>(T[] stats) where T : class, IStats
         {
             return stats[Random.Range(0, stats.Length)];
         }
-    }    
+    }
+
+    [System.Serializable]
+    public struct SoldierPositionInspector
+    {
+        [SerializeField] Transform[] _transforms;
+        [SerializeField] TeamType _teamType;
+
+        public TeamType TeamType => _teamType;
+        public Transform[] Transforms => _transforms;
+    }
 }
