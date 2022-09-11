@@ -59,6 +59,28 @@ namespace Voodoo.Managers
 
         IEnumerator Start()
         {
+            yield return CreateBothSideSoldiersAsync();
+        }
+
+        public IEnumerator ClearAllSoldiersAndCreate()
+        {
+            foreach (List<SoldierController> soldierControllers in _allSoldiers.Values)
+            {
+                int count = soldierControllers.Count;
+                for (int i = 0; i < count; i++)
+                {
+                    var soldier = soldierControllers[0];
+                    soldierControllers.Remove(soldierControllers[0]);
+                    Destroy(soldier.gameObject);
+                    yield return null;
+                }
+            }
+
+            yield return CreateBothSideSoldiersAsync();
+        }
+
+        IEnumerator CreateBothSideSoldiersAsync()
+        {
             yield return CreateSoldierAsync(TeamType.TeamA,_soldierParentA);
             yield return CreateSoldierAsync(TeamType.TeamB,_soldierParentB);
         }
