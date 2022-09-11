@@ -8,7 +8,6 @@ using Voodoo.Abstracts.ScriptableObjects;
 using Voodoo.Controllers;
 using Voodoo.Enums;
 using Voodoo.ScriptableObjects;
-using Random = UnityEngine.Random;
 
 namespace Voodoo.Managers
 {

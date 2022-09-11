@@ -1,7 +1,9 @@
 ﻿using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.AI;
+using Voodoo.Abstracts.Combats;
 using Voodoo.Abstracts.Controllers;
+using Voodoo.Combats;
 using Voodoo.Enums;
 using Voodoo.Helpers;
 using Voodoo.ScriptableObjects;
@@ -20,7 +22,7 @@ namespace Voodoo.Controllers
         [SerializeField] float _currentMoveSpeed;
         [ReadOnly]
         [BoxGroup("Current Info")]
-        [SerializeField] int currentCurrentDamage;
+        [SerializeField] int _currentDamage;
         [ReadOnly]
         [BoxGroup("Current Info")]
         [SerializeField] float _currentAttackRate;
@@ -53,8 +55,10 @@ namespace Voodoo.Controllers
         public TeamType TeamType { get; }
         public int CurrentHealth => _currentHealth;
         public float CurrentMoveSpeed => _currentMoveSpeed;
-        public int CurrentDamage => currentCurrentDamage;
+        public int CurrentDamage => _currentDamage;
         public float CurrentAttackRate => _currentAttackRate;
+        public IHealthService HealthManager { get; private set; }
+        public IAttackerService AttackManager { get; private set; }
         public Transform Transform => _transform;
 
 
@@ -96,7 +100,7 @@ namespace Voodoo.Controllers
         {
             _basicStats = basicStats;
             _currentHealth = _basicStats.BasicHealth;
-            currentCurrentDamage = _basicStats.BasicDamage;
+            _currentDamage = _basicStats.BasicDamage;
             _currentAttackRate = _basicStats.BasicAttackRate;
             _currentMoveSpeed = _basicStats.BasicMoveSpeed;
         }
@@ -106,7 +110,7 @@ namespace Voodoo.Controllers
             _shapeStats = shapeStats;
             _soldierBodyController = Instantiate(_shapeStats.ShapePrefab,this._transform);
             _soldierBodyController.Transform.localPosition = DirectionCacheHelper.Up;
-            currentCurrentDamage += _shapeStats.ShapeDamage;
+            _currentDamage += _shapeStats.ShapeDamage;
             _currentHealth += _shapeStats.ShapeHealth;
         }
 
@@ -115,10 +119,14 @@ namespace Voodoo.Controllers
             _colorStats = colorStats;
             _soldierBodyController.MeshRenderer.material = _colorStats.ColorMaterial;
             
-            currentCurrentDamage += _colorStats.ColorDamage;
+            _currentDamage += _colorStats.ColorDamage;
             _currentHealth += _colorStats.ColorHealth;
             _currentAttackRate += _colorStats.ColorAttackRate;
             _currentMoveSpeed += _colorStats.ColorMoveSpeed;
+
+            HealthManager = new HealthManager(new BasicHealthDal(_currentHealth));
+            AttackManager = new AttackerManager(new BasicAttackerDal(_currentDamage, _currentAttackRate));
+            _navMeshAgent.speed = _currentMoveSpeed;
         }
 
         public void BindSizeStats(SizeStats sizeStats)

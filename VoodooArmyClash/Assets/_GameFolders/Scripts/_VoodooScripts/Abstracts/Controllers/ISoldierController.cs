@@ -1,4 +1,5 @@
-﻿using Voodoo.Enums;
+﻿using Voodoo.Abstracts.Combats;
+using Voodoo.Enums;
 using Voodoo.ScriptableObjects;
 
 namespace Voodoo.Abstracts.Controllers
@@ -10,7 +11,8 @@ namespace Voodoo.Abstracts.Controllers
         float CurrentMoveSpeed { get; }
         int CurrentDamage { get; }
         float CurrentAttackRate { get; }
-
+        IHealthService HealthManager { get; }
+        IAttackerService  AttackManager { get; }
         void BindTeam(TeamType teamType);
         void BindBasicStats(BasicStats basicStats);
         void BindShapeStats(ShapeStats shapeStats);
