@@ -94,7 +94,19 @@ namespace Voodoo.Managers
                 for (int j = 0; j < count; j++)
                 {
                     var soldier = soldiers[j];
-                    if(soldier.HealthManager.IsDead || soldier.Target != null) continue;
+                    if(soldier.HealthManager.IsDead) continue;
+
+                    if (soldier.Target != null)
+                    {
+                        if (soldier.Target.HealthManager.IsDead)
+                        {
+                            soldier.SetTarget(null);
+                        }
+                        else
+                        {
+                            continue;
+                        }    
+                    }
 
                     int oppositeCount = _allSoldiers[(TeamType)iOpposite].Count;
                     var oppositeSoldiers = _allSoldiers[(TeamType)iOpposite];

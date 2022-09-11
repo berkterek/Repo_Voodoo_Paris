@@ -12,29 +12,24 @@ namespace Voodoo.Controllers
 {
     public class SoldierController : MonoBehaviour, ISoldierController
     {
-        [ReadOnly] 
-        [SerializeField] TeamType _teamType;
-        [ReadOnly]
-        [BoxGroup("Current Info")]
-        [SerializeField] int _currentHealth;
-        [ReadOnly]
-        [BoxGroup("Current Info")]
-        [SerializeField] float _currentMoveSpeed;
-        [ReadOnly]
-        [BoxGroup("Current Info")]
-        [SerializeField] int _currentDamage;
-        [ReadOnly]
-        [BoxGroup("Current Info")]
-        [SerializeField] float _currentAttackRate;
+        [ReadOnly] [SerializeField] TeamType _teamType;
 
-        [BoxGroup("Game Object Infos")]
-        [ReadOnly]
-        [SerializeField]
+        [ReadOnly] [BoxGroup("Current Info")] [SerializeField]
+        int _currentHealth;
+
+        [ReadOnly] [BoxGroup("Current Info")] [SerializeField]
+        float _currentMoveSpeed;
+
+        [ReadOnly] [BoxGroup("Current Info")] [SerializeField]
+        int _currentDamage;
+
+        [ReadOnly] [BoxGroup("Current Info")] [SerializeField]
+        float _currentAttackRate;
+
+        [BoxGroup("Game Object Infos")] [ReadOnly] [SerializeField]
         Transform _transform;
-        
-        [BoxGroup("Game Object Infos")]
-        [SerializeField]
-        [ReadOnly]
+
+        [BoxGroup("Game Object Infos")] [SerializeField] [ReadOnly]
         SoldierBodyController _soldierBodyController;
 
         [BoxGroup("Game Object Infos")] [SerializeField] [ReadOnly]
@@ -45,10 +40,13 @@ namespace Voodoo.Controllers
 
         [BoxGroup("Stats")] [SerializeField] [ReadOnly]
         BasicStats _basicStats;
+
         [BoxGroup("Stats")] [SerializeField] [ReadOnly]
         ShapeStats _shapeStats;
+
         [BoxGroup("Stats")] [SerializeField] [ReadOnly]
         SizeStats _sizeStats;
+
         [BoxGroup("Stats")] [SerializeField] [ReadOnly]
         ColorStats _colorStats;
 
@@ -92,15 +90,11 @@ namespace Voodoo.Controllers
                 if (_navMeshAgent.isStopped) return;
 
                 _navMeshAgent.isStopped = true;
-                
             }
             else
             {
-                if (_navMeshAgent.isStopped)
-                {
-                    _navMeshAgent.isStopped = false;
-                    _navMeshAgent.SetDestination(_target.Transform.position);    
-                }
+                _navMeshAgent.isStopped = false;
+                _navMeshAgent.SetDestination(_target.Transform.position);
             }
         }
 
@@ -121,7 +115,7 @@ namespace Voodoo.Controllers
         public void BindShapeStats(ShapeStats shapeStats)
         {
             _shapeStats = shapeStats;
-            _soldierBodyController = Instantiate(_shapeStats.ShapePrefab,this._transform);
+            _soldierBodyController = Instantiate(_shapeStats.ShapePrefab, this._transform);
             _soldierBodyController.Transform.localPosition = DirectionCacheHelper.Up;
             _currentDamage += _shapeStats.ShapeDamage;
             _currentHealth += _shapeStats.ShapeHealth;
@@ -131,7 +125,7 @@ namespace Voodoo.Controllers
         {
             _colorStats = colorStats;
             _soldierBodyController.MeshRenderer.material = _colorStats.ColorMaterial;
-            
+
             _currentDamage += _colorStats.ColorDamage;
             _currentHealth += _colorStats.ColorHealth;
             _currentAttackRate += _colorStats.ColorAttackRate;
@@ -156,14 +150,14 @@ namespace Voodoo.Controllers
         {
             _target = target;
         }
-        
+
         void HandleOnDead()
         {
             _transform.gameObject.SetActive(false);
             HealthManager.OnDead -= HandleOnDead;
             AttackManager.OnTargetDestroyed -= HandleOnTargetDestroyed;
         }
-        
+
         void HandleOnTargetDestroyed()
         {
             _target = null;
